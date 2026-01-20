@@ -1,0 +1,17 @@
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:controls="clr-namespace:NodeEditor.Controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--  Add Resources Here  -->
+    <ControlTheme TargetType="controls:CanvasItemsControl" x:Key="{x:Type controls:CanvasItemsControl}">
+        <Setter Property="Background" Value="#01000000" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <ItemsPresenter
+                    ItemsPanel="{TemplateBinding ItemsPanel}"
+                    Margin="{TemplateBinding Padding}"
+                    Name="PART_ItemsPresenter" />
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

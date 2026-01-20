@@ -1,0 +1,27 @@
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:controls="clr-namespace:NodeEditor.Controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--  Add Resources Here  -->
+
+    <ControlTheme TargetType="controls:ConnectorsControl" x:Key="{x:Type controls:ConnectorsControl}">
+        <!-- <Setter Property="Background" Value="#01000000" /> -->
+        <Setter Property="ClipToBounds" Value="False" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    ClipToBounds="{TemplateBinding ClipToBounds}"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    Name="border">
+                    <ItemsPresenter
+                        ItemsPanel="{TemplateBinding ItemsPanel}"
+                        Margin="{TemplateBinding Padding}"
+                        Name="PART_ItemsPresenter" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

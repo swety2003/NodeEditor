@@ -1,0 +1,80 @@
+﻿<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:controls="clr-namespace:NodeEditor.Controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <controls:SampleNodeEditor />
+    </Design.PreviewWith>
+
+
+    <Style Selector="controls|Connection:pointerover">
+        <Setter Property="Brush1" Value="#30000000" />
+    </Style>
+
+    <Style Selector="controls|SampleNodeEditor">
+        <!--  Set Defaults  -->
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <Border>
+                        <controls:GridVisualHost ViewportTransform="{TemplateBinding ViewTransform}" />
+                    </Border>
+
+                    <controls:ZoomBorder
+                        Background="#01000000"
+                        CanvasTransform="{TemplateBinding ViewTransform,
+                                                          Mode=TwoWay}"
+                        Name="PART_ZoomBorder">
+                        <Panel>
+                            <ItemsControl
+                                ItemTemplate="{TemplateBinding ConnectionTemplate}"
+                                ItemsSource="{TemplateBinding Connections}"
+                                Name="PART_ConnectionItemsControl">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Canvas RenderTransform="{Binding $parent[controls:SampleNodeEditor].ViewTransform}" RenderTransformOrigin="0,0" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+
+
+                            <controls:CanvasItemsControl
+                                ItemContainerTheme="{TemplateBinding ItemContainerTheme}"
+                                ItemTemplate="{TemplateBinding NodeTemplate}"
+                                ItemsSource="{TemplateBinding Nodes}"
+                                Name="PART_CanvasItemsControl"
+                                SelectedItems="{TemplateBinding SelectedNodes}">
+                                <controls:CanvasItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Canvas RenderTransform="{Binding $parent[controls:SampleNodeEditor].ViewTransform}" RenderTransformOrigin="0,0" />
+                                    </ItemsPanelTemplate>
+                                </controls:CanvasItemsControl.ItemsPanel>
+                            </controls:CanvasItemsControl>
+
+                        </Panel>
+                    </controls:ZoomBorder>
+
+                    <Canvas RenderTransform="{TemplateBinding ViewTransform}" RenderTransformOrigin="0,0">
+                        <controls:PendingConnection
+                            IsVisible="False"
+                            Name="PART_PendingConnection"
+                            Theme="{TemplateBinding PendingConnectionTheme}" />
+                    </Canvas>
+                    <Canvas
+                        HorizontalAlignment="Stretch"
+                        IsHitTestVisible="False"
+                        VerticalAlignment="Stretch">
+                        <Rectangle
+                            Fill="#30000000"
+                            Height="200"
+                            IsVisible="False"
+                            Stroke="Black"
+                            StrokeThickness="1"
+                            Width="100"
+                            x:Name="PART_SelectionBox" />
+                    </Canvas>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

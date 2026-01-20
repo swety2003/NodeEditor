@@ -1,0 +1,41 @@
+﻿<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:controls="clr-namespace:NodeEditor.Controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <controls:Node />
+    </Design.PreviewWith>
+
+    <Style Selector="controls|Node">
+        <!--  Set Defaults  -->
+        <Setter Property="Background" Value="LightCoral" />
+        <Setter Property="ClipToBounds" Value="False" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}">
+
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,*">
+                        <Border Grid.ColumnSpan="2">
+                            <ContentControl Content="{TemplateBinding Header}" />
+                        </Border>
+
+
+                        <controls:ConnectorsControl
+                            Grid.Column="0"
+                            Grid.Row="1"
+                            ItemContainerTheme="{TemplateBinding ConnectorTheme}"
+                            ItemsSource="{TemplateBinding Inputs}"
+                            Name="PART_Inputs" />
+                        <controls:ConnectorsControl
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            ItemContainerTheme="{TemplateBinding ConnectorTheme}"
+                            ItemsSource="{TemplateBinding Outputs}"
+                            Name="PART_Outputs" />
+
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

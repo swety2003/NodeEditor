@@ -1,0 +1,130 @@
+﻿<UserControl
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="NodeEditorSample.Views.NodeEditorTestView"
+    x:DataType="viewModels:NodeEditorTestViewModel"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:controls="clr-namespace:NodeEditor.Controls;assembly=NodeEditor"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:NodeEditorSample.ViewModels"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <UserControl.Styles>
+        <StyleInclude Source="avares://NodeEditor/Controls/Connector.axaml" />
+        <StyleInclude Source="avares://NodeEditor/Controls/Node.axaml" />
+        <StyleInclude Source="avares://NodeEditor/Controls/SampleNodeEditor.axaml" />
+    </UserControl.Styles>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="avares://NodeEditor/Themes/CanvasItem.axaml" />
+                <ResourceInclude Source="avares://NodeEditor/Themes/CanvasItemsControl.axaml" />
+                <ResourceInclude Source="avares://NodeEditor/Themes/ConnectorsControl.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid RowDefinitions="Auto,*">
+        <StackPanel
+            Margin="4"
+            Orientation="Horizontal"
+            Spacing="4">
+            <TextBlock Text="节点编辑器测试" VerticalAlignment="Center" />
+            <Button Command="{Binding ResetViewCommand}">
+                重置缩放
+            </Button>
+            <Button Command="{Binding NewNodeCommand}">
+                新建节点
+            </Button>
+        </StackPanel>
+        <controls:SampleNodeEditor
+            Connections="{Binding Connections}"
+            Grid.Row="1"
+            Name="Editor"
+            Nodes="{Binding Nodes}"
+            SelectedNodes="{Binding SelectedNodes}"
+            ViewTransform="{Binding MatrixTransform}">
+            <controls:SampleNodeEditor.ContextFlyout>
+                <MenuFlyout>
+                    <MenuItem Command="{Binding DeleteSelectedNodesCommand}" Header="删除选中" />
+                    <MenuItem Command="{Binding UndoCommand}" Header="撤销" />
+                    <MenuItem Command="{Binding RedoCommand}" Header="重做" />
+                </MenuFlyout>
+            </controls:SampleNodeEditor.ContextFlyout>
+            <controls:SampleNodeEditor.PendingConnectionTheme>
+                <ControlTheme TargetType="controls:PendingConnection">
+                    <Setter Property="Tip" Value="{Binding PendingConnection.Text}" />
+                </ControlTheme>
+            </controls:SampleNodeEditor.PendingConnectionTheme>
+            <controls:SampleNodeEditor.ItemContainerTheme>
+                <ControlTheme
+                    BasedOn="{StaticResource {x:Type controls:CanvasItem}}"
+                    TargetType="controls:CanvasItem"
+                    x:DataType="viewModels:NodeViewModel">
+                    <Setter Property="Canvas.Left" Value="{Binding X, Mode=TwoWay}" />
+                    <Setter Property="Canvas.Top" Value="{Binding Y, Mode=TwoWay}" />
+                </ControlTheme>
+            </controls:SampleNodeEditor.ItemContainerTheme>
+            <controls:SampleNodeEditor.ConnectionTemplate>
+                <DataTemplate x:DataType="viewModels:ConnectionViewModel">
+                    <controls:Connection Source="{Binding Source.Anchor}" Target="{Binding Target.Anchor}">
+                        <controls:Connection.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuItem
+                                    Command="{Binding $parent[controls:SampleNodeEditor].((viewModels:NodeEditorTestViewModel)DataContext).RemoveConnectionCommand}"
+                                    CommandParameter="{Binding}"
+                                    Header="移除连接" />
+                            </MenuFlyout>
+                        </controls:Connection.ContextFlyout>
+                    </controls:Connection>
+                </DataTemplate>
+            </controls:SampleNodeEditor.ConnectionTemplate>
+            <controls:SampleNodeEditor.NodeTemplate>
+                <DataTemplate x:DataType="viewModels:NodeViewModel">
+                    <controls:Node
+                        Background="#393939"
+                        Inputs="{Binding Inputs}"
+                        MinWidth="100"
+                        Outputs="{Binding Outputs}"
+                        TextElement.Foreground="White">
+                        <controls:Node.Header>
+                            <Border Background="#467cc4">
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding Title}" />
+                            </Border>
+                        </controls:Node.Header>
+                        <controls:Node.ConnectorTheme>
+                            <ControlTheme TargetType="controls:Connector" x:DataType="viewModels:ConnectorViewModel">
+                                <Setter Property="Anchor" Value="{Binding Anchor, Mode=TwoWay}" />
+                                <Setter Property="Header" Value="{Binding Header}" />
+                                <Setter Property="IsOutput" Value="{Binding Output}" />
+                            </ControlTheme>
+                        </controls:Node.ConnectorTheme>
+                    </controls:Node>
+                </DataTemplate>
+            </controls:SampleNodeEditor.NodeTemplate>
+        </controls:SampleNodeEditor>
+
+        <StackPanel
+            Grid.Row="1"
+            HorizontalAlignment="Right"
+            Margin="8"
+            MinWidth="100"
+            TextElement.Foreground="ForestGreen"
+            VerticalAlignment="Bottom">
+            <TextBlock Text="[Debug Info]" />
+            <TextBlock>
+                <Run Text="{Binding ElementName=Editor, Path=ViewTransform.Matrix.M11, StringFormat={}scale:{0:F2}}" />
+                <Run>
+                    <Run.Text>
+
+                        <MultiBinding StringFormat="offset=({0:F0},{1:F0})">
+                            <Binding ElementName="Editor" Path="ViewTransform.Matrix.M31" />
+                            <Binding ElementName="Editor" Path="ViewTransform.Matrix.M32" />
+                        </MultiBinding>
+                    </Run.Text>
+                </Run>
+            </TextBlock>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

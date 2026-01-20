@@ -1,0 +1,50 @@
+﻿<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:controls="clr-namespace:NodeEditor.Controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <controls:Connector />
+    </Design.PreviewWith>
+
+    <Style Selector="controls|Connector">
+        <!--  Set Defaults  -->
+        <Setter Property="ClipToBounds" Value="False" />
+        <Setter Property="Background" Value="#01000000" />
+        <Setter Property="Template">
+            <ControlTemplate>
+
+                <StackPanel
+                    Margin="-6,0,0,0"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <Rectangle
+                        Fill="#008e8c"
+                        Height="12"
+                        VerticalAlignment="Center"
+                        Width="12" />
+                    <TextBlock Text="{TemplateBinding Header}" />
+                </StackPanel>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^[IsOutput=True]">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <StackPanel
+                        Margin="0,0,-6,0"
+                        Orientation="Horizontal"
+                        Spacing="4">
+                        <TextBlock Text="{TemplateBinding Header}" />
+                        <Rectangle
+                            Fill="#008e8c"
+                            Height="12"
+                            VerticalAlignment="Center"
+                            Width="12" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter>
+
+        </Style>
+    </Style>
+</Styles>
