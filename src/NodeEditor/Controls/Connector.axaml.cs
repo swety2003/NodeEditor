@@ -2,6 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using Avalonia.VisualTree;
 
 namespace NodeEditor.Controls;
@@ -17,6 +18,24 @@ public class Connector : TemplatedControl
 
     public static readonly StyledProperty<bool> IsOutputProperty = AvaloniaProperty.Register<Connector, bool>(
         nameof(IsOutput));
+    
+    
+    public static readonly StyledProperty<bool> IsConnectedProperty = AvaloniaProperty.Register<Connector, bool>(
+        nameof(IsConnected));
+
+    public static readonly StyledProperty<IBrush> BrushProperty = AvaloniaProperty.Register<Connector, IBrush>(
+        nameof(Brush));
+
+    public IBrush Brush
+    {
+        get => GetValue(BrushProperty);
+        set => SetValue(BrushProperty, value);
+    }
+    public bool IsConnected
+    {
+        get => GetValue(IsConnectedProperty);
+        set => SetValue(IsConnectedProperty, value);
+    }
 
     public bool IsOutput
     {

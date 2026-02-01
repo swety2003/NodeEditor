@@ -10,16 +10,19 @@
         <!--  Set Defaults  -->
         <Setter Property="ClipToBounds" Value="False" />
         <Setter Property="Background" Value="#01000000" />
+        <Setter Property="Brush" Value="#008e8c" />
+        <Setter Property="IsConnected" Value="False" />
         <Setter Property="Template">
             <ControlTemplate>
 
-                <StackPanel
-                    Margin="-6,0,0,0"
-                    Orientation="Horizontal"
-                    Spacing="4">
+                <StackPanel Orientation="Horizontal" Spacing="4">
                     <Rectangle
-                        Fill="#008e8c"
+                        Fill="{TemplateBinding Brush}"
                         Height="12"
+                        Margin="-6,0,0,0"
+                        Name="PART_Rectangle"
+                        Stroke="{TemplateBinding Brush}"
+                        StrokeThickness="2"
                         VerticalAlignment="Center"
                         Width="12" />
                     <TextBlock Text="{TemplateBinding Header}" />
@@ -27,24 +30,30 @@
             </ControlTemplate>
         </Setter>
 
+
         <Style Selector="^[IsOutput=True]">
             <Setter Property="HorizontalAlignment" Value="Right" />
             <Setter Property="Template">
                 <ControlTemplate>
-                    <StackPanel
-                        Margin="0,0,-6,0"
-                        Orientation="Horizontal"
-                        Spacing="4">
+                    <StackPanel Orientation="Horizontal" Spacing="4">
                         <TextBlock Text="{TemplateBinding Header}" />
                         <Rectangle
-                            Fill="#008e8c"
+                            Fill="{TemplateBinding Brush}"
                             Height="12"
+                            Margin="0,0,-6,0"
+                            Name="PART_Rectangle"
+                            Stroke="{TemplateBinding Brush}"
+                            StrokeThickness="2"
                             VerticalAlignment="Center"
                             Width="12" />
                     </StackPanel>
                 </ControlTemplate>
             </Setter>
 
+        </Style>
+
+        <Style Selector="^[IsConnected=False] /template/ Rectangle#PART_Rectangle">
+            <Setter Property="Fill" Value="Transparent" />
         </Style>
     </Style>
 </Styles>

@@ -3,6 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
+using Avalonia.Metadata;
 using Avalonia.Styling;
 
 namespace NodeEditor.Controls;
@@ -63,6 +64,17 @@ public class Node : TemplatedControl
     
     public static readonly StyledProperty<object> HeaderProperty = AvaloniaProperty.Register<Node, object>(
         nameof(Header));
+    
+    
+    public static readonly StyledProperty<object> ContentProperty = AvaloniaProperty.Register<Node, object>(
+        nameof(Content));
+
+    [Content]
+    public object Content
+    {
+        get => GetValue(ContentProperty);
+        set => SetValue(ContentProperty, value);
+    }
 
     public object Header
     {
