@@ -61,6 +61,7 @@
                     BasedOn="{StaticResource {x:Type controls:CanvasItem}}"
                     TargetType="controls:CanvasItem"
                     x:DataType="viewModels:NodeViewModel">
+                    <Setter Property="BorderBrush" Value="Gray" />
                     <Setter Property="Canvas.Left" Value="{Binding X, Mode=TwoWay}" />
                     <Setter Property="Canvas.Top" Value="{Binding Y, Mode=TwoWay}" />
                 </ControlTheme>
@@ -92,6 +93,13 @@
                                 <TextBlock HorizontalAlignment="Center" Text="{Binding Title}" />
                             </Border>
                         </controls:Node.Header>
+                        <StackPanel
+                            Margin="0,4"
+                            Spacing="4"
+                            controls:EditorBehaviourOptions.IgnoreHitTest="True">
+                            <Slider MinWidth="200" />
+                            <TextBox Text="200" />
+                        </StackPanel>
                         <controls:Node.ConnectorTheme>
                             <ControlTheme TargetType="controls:Connector" x:DataType="viewModels:ConnectorViewModel">
                                 <Setter Property="Anchor" Value="{Binding Anchor, Mode=TwoWay}" />
@@ -99,6 +107,12 @@
                                 <Setter Property="IsOutput" Value="{Binding Output}" />
                             </ControlTheme>
                         </controls:Node.ConnectorTheme>
+                        <controls:Node.Footer>
+
+                            <Border Background="DarkRed" Padding="4">
+                                <TextBlock Foreground="Red" Text="Error: Invalid Operation." />
+                            </Border>
+                        </controls:Node.Footer>
                     </controls:Node>
                 </DataTemplate>
             </controls:SampleNodeEditor.NodeTemplate>

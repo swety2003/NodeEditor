@@ -5,6 +5,8 @@
         <LangVersion>latest</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <PackageId>MyControls.NodeEditor</PackageId>
+        <Authors>swety2003</Authors>
     </PropertyGroup>
     
     <ItemGroup>

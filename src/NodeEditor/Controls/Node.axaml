@@ -14,10 +14,8 @@
             <ControlTemplate>
                 <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}">
 
-                    <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,*">
-                        <Border Grid.ColumnSpan="3">
-                            <ContentControl Content="{TemplateBinding Header}" />
-                        </Border>
+                    <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,*,Auto">
+                        <ContentControl Content="{TemplateBinding Header}" Grid.ColumnSpan="3" />
 
 
                         <controls:ConnectorsControl
@@ -27,8 +25,7 @@
                             ItemsSource="{TemplateBinding Inputs}"
                             Name="PART_Inputs" />
 
-                        <controls:HitTestSafeArea
-                            Background="{TemplateBinding Background}"
+                        <ContentControl
                             Content="{TemplateBinding Content}"
                             Grid.Column="1"
                             Grid.Row="1" />
@@ -39,6 +36,11 @@
                             ItemContainerTheme="{TemplateBinding ConnectorTheme}"
                             ItemsSource="{TemplateBinding Outputs}"
                             Name="PART_Outputs" />
+
+                        <ContentControl
+                            Content="{TemplateBinding Footer}"
+                            Grid.ColumnSpan="3"
+                            Grid.Row="2" />
 
                     </Grid>
                 </Border>

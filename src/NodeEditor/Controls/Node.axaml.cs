@@ -69,6 +69,15 @@ public class Node : TemplatedControl
     public static readonly StyledProperty<object> ContentProperty = AvaloniaProperty.Register<Node, object>(
         nameof(Content));
 
+    public static readonly StyledProperty<object> FooterProperty = AvaloniaProperty.Register<Node, object>(
+        nameof(Footer));
+
+    public object Footer
+    {
+        get => GetValue(FooterProperty);
+        set => SetValue(FooterProperty, value);
+    }
+
     [Content]
     public object Content
     {

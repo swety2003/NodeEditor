@@ -26,8 +26,6 @@ public partial class SampleNodeEditor
     private SampleNodeEditor owningWorkspace;
 
     #endregion
-    
-    bool ignoreEvents = false;
 
     public StateMachine(SampleNodeEditor workspaceView)
     {
@@ -54,6 +52,25 @@ public partial class SampleNodeEditor
     private bool hitItem = false;
     private bool hitConnector = false;
 
+    private bool CanIgnore(Visual? visualSource)
+    {
+        Visual? current = visualSource;
+        while (true)
+        {
+            // update parent
+            if (current == null || current == owningWorkspace)
+            {
+                return false;
+            }
+            if (EditorBehaviourOptions.GetIgnoreHitTest(current as Control) == true)
+            {
+                return true;
+            }
+            current = current?.GetVisualParent();
+        }
+        return false;
+    }
+
     public void OnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         var p = e.GetPosition(owningWorkspace);
@@ -68,15 +85,9 @@ public partial class SampleNodeEditor
             owningWorkspace.BringToFront(item);
         }
         // todo 
-        if (visualSource.FindAncestorOfType<HitTestSafeArea>() != null)
+        if (CanIgnore(visualSource))
         {
-            // do not handle
-            ignoreEvents = true;
             return;
-        }
-        else
-        {
-            ignoreEvents = false;
         }
         
         // Console.WriteLine("P "+visualSource);
@@ -154,7 +165,11 @@ public partial class SampleNodeEditor
     private int threshold = 3;
     public void OnPointerMoved(object? sender, PointerEventArgs e)
     {
-        if (ignoreEvents) return;
+        // todo ignore events
+        if (CanIgnore(e.Source as Visual))
+        {
+            return;
+        }
         
         var p = e.GetPosition(owningWorkspace);
         Vector delta = p - mouseDownPos;

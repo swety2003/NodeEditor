@@ -42,6 +42,15 @@ public class CanvasItem: ContentControl, ISelectable
         }
     }
 
+    public static readonly StyledProperty<int> MoveStepProperty = AvaloniaProperty.Register<CanvasItem, int>(
+        nameof(MoveStep),5);
+
+    public int MoveStep
+    {
+        get => GetValue(MoveStepProperty);
+        set => SetValue(MoveStepProperty, value);
+    }
+
     static CanvasItem()
     {
         Canvas.LeftProperty.OverrideDefaultValue<CanvasItem>(0);
@@ -82,8 +91,11 @@ public class CanvasItem: ContentControl, ISelectable
     }
     public void DragMove(Vector vector)
     {
-        Left = _dragStart.X + vector.X;
-        Top = _dragStart.Y + vector.Y;
+        var x = _dragStart.X + vector.X;
+        var y = _dragStart.Y + vector.Y;
+        
+        Left = ((int)x / MoveStep) * MoveStep;
+        Top = ((int)y / MoveStep) * MoveStep;
     }
     
     public void DragCancel()
@@ -95,6 +107,8 @@ public class CanvasItem: ContentControl, ISelectable
     public void DragEnd()
     {
         // todo
+        // Left = ((int)Left / MoveStep) * MoveStep;
+        // Top = ((int)Top / MoveStep) * MoveStep;
     }
     
     
