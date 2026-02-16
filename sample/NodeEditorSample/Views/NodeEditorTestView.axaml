@@ -105,6 +105,7 @@
                                 <Setter Property="Anchor" Value="{Binding Anchor, Mode=TwoWay}" />
                                 <Setter Property="Header" Value="{Binding Header}" />
                                 <Setter Property="IsOutput" Value="{Binding Output}" />
+                                <Setter Property="IsConnected" Value="False" />
                             </ControlTheme>
                         </controls:Node.ConnectorTheme>
                         <controls:Node.Footer>
@@ -128,12 +129,24 @@
             <TextBlock Text="[Debug Info]" />
             <TextBlock>
                 <Run Text="{Binding ElementName=Editor, Path=ViewTransform.Matrix.M11, StringFormat={}scale:{0:F2}}" />
+                <LineBreak />
                 <Run>
                     <Run.Text>
 
                         <MultiBinding StringFormat="offset=({0:F0},{1:F0})">
                             <Binding ElementName="Editor" Path="ViewTransform.Matrix.M31" />
                             <Binding ElementName="Editor" Path="ViewTransform.Matrix.M32" />
+                        </MultiBinding>
+                    </Run.Text>
+                </Run>
+                <LineBreak />
+
+                <Run>
+                    <Run.Text>
+
+                        <MultiBinding StringFormat="pointer=({0:F0},{1:F0})">
+                            <Binding ElementName="Editor" Path="MouseLocation.X" />
+                            <Binding ElementName="Editor" Path="MouseLocation.Y" />
                         </MultiBinding>
                     </Run.Text>
                 </Run>

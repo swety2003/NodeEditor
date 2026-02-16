@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Shapes;
 using Avalonia.Controls.Templates;
+using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Styling;
@@ -20,6 +21,15 @@ public partial class SampleNodeEditor : TemplatedControl
     }
     
     #region Control Properties
+
+    public static readonly StyledProperty<Point> MouseLocationProperty = AvaloniaProperty.Register<SampleNodeEditor, Point>(
+        nameof(MouseLocation),defaultBindingMode:BindingMode.OneWayToSource);
+
+    public Point MouseLocation
+    {
+        get => GetValue(MouseLocationProperty);
+        set => SetValue(MouseLocationProperty, value);
+    }
 
     public static readonly StyledProperty<IBrush> GridLineBrushProperty = AvaloniaProperty.Register<SampleNodeEditor, IBrush>(
         nameof(GridLineBrush));
@@ -268,6 +278,7 @@ public partial class SampleNodeEditor : TemplatedControl
     {
         base.OnPointerMoved(e);
         _stateMachine.OnPointerMoved(this,e);
+        MouseLocation = ViewTransform.Matrix.Invert().Transform(e.GetPosition(this));
     }
 
     protected override void OnPointerReleased(PointerReleasedEventArgs e)

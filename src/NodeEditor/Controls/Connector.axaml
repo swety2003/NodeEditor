@@ -11,7 +11,6 @@
         <Setter Property="ClipToBounds" Value="False" />
         <Setter Property="Background" Value="#01000000" />
         <Setter Property="Brush" Value="#008e8c" />
-        <Setter Property="IsConnected" Value="False" />
         <Setter Property="Template">
             <ControlTemplate>
 
