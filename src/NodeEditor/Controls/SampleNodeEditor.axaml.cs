@@ -22,6 +22,15 @@ public partial class SampleNodeEditor : TemplatedControl
     
     #region Control Properties
 
+    public static readonly StyledProperty<EditorOptions> EditorOptionsProperty = AvaloniaProperty.Register<SampleNodeEditor, EditorOptions>(
+        nameof(EditorOptions),Controls.EditorOptions.All);
+
+    public EditorOptions EditorOptions
+    {
+        get => GetValue(EditorOptionsProperty);
+        set => SetValue(EditorOptionsProperty, value);
+    }
+
     public static readonly StyledProperty<Point> MouseLocationProperty = AvaloniaProperty.Register<SampleNodeEditor, Point>(
         nameof(MouseLocation),defaultBindingMode:BindingMode.OneWayToSource);
 

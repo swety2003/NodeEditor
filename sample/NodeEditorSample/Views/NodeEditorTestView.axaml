@@ -30,6 +30,8 @@
             Orientation="Horizontal"
             Spacing="4">
             <TextBlock Text="节点编辑器测试" VerticalAlignment="Center" />
+            <ToggleButton IsChecked="{Binding CanDragMove}">DragMove</ToggleButton>
+            <ToggleButton IsChecked="{Binding CanConnect}">Connect</ToggleButton>
             <Button Command="{Binding ResetViewCommand}">
                 重置缩放
             </Button>
@@ -39,6 +41,7 @@
         </StackPanel>
         <controls:SampleNodeEditor
             Connections="{Binding Connections}"
+            EditorOptions="{Binding Options}"
             Grid.Row="1"
             Name="Editor"
             Nodes="{Binding Nodes}"

@@ -6,12 +6,38 @@ using Avalonia.Collections;
 using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using NodeEditor.Controls;
 using NodeEditorSample.UndoRedo;
 
 namespace NodeEditorSample.ViewModels;
 
 public partial class NodeEditorTestViewModel: ObservableObject
 {
+    [ObservableProperty]EditorOptions options = EditorOptions.All;
+
+    public bool CanDragMove
+    {
+        get => Options.HasFlag(EditorOptions.DragMove);
+        set
+        {
+            if (value)
+                Options |= EditorOptions.DragMove;
+            else
+                Options &= ~EditorOptions.DragMove;
+        }
+    }
+    public bool CanConnect
+    {
+        get => Options.HasFlag(EditorOptions.Connection);
+        set
+        {
+            if (value)
+                Options |= EditorOptions.Connection;
+            else
+                Options &= ~EditorOptions.Connection;
+        }
+    }
+    
     public AvaloniaList<NodeViewModel> Nodes { get; set; } = [];
     public AvaloniaList<NodeViewModel> SelectedNodes { get; set; } = [];
     public AvaloniaList<ConnectionViewModel> Connections { get; set; } = [];

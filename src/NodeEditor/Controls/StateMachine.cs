@@ -32,12 +32,31 @@ public partial class SampleNodeEditor
         owningWorkspace = workspaceView;
     }
 
+    private bool CanTransition(State newState)
+    {
+        if (!owningWorkspace.EditorOptions.HasFlag(EditorOptions.DragMove) && newState == State.Dragging)
+        {
+            return false;
+        }
+        if (!owningWorkspace.EditorOptions.HasFlag(EditorOptions.PanAndZoom) && newState == State.Panning)
+        {
+            return false;
+        }
+        if (!owningWorkspace.EditorOptions.HasFlag(EditorOptions.Connection) && newState == State.Connecting)
+        {
+            return false;
+        }
+        return true;
+    }
+
     private void GotoState(State newState)
     {
-        if (currentState == newState)
+        if (currentState == newState || !CanTransition(newState))
         {
             return;
         }
+        
+        
 
         if (newState == State.Dragging)
         {
