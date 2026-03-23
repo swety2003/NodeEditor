@@ -23,6 +23,13 @@ public class Node : TemplatedControl
 
     private ItemsControl _inputsItemsControl;
     private ItemsControl _outputsItemsControl;
+
+    protected override void OnSizeChanged(SizeChangedEventArgs e)
+    {
+        base.OnSizeChanged(e);
+
+        UpdateAnchors();
+    }
     
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {

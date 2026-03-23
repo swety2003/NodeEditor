@@ -109,6 +109,7 @@
                                 <Setter Property="Header" Value="{Binding Header}" />
                                 <Setter Property="IsOutput" Value="{Binding Output}" />
                                 <Setter Property="IsConnected" Value="False" />
+                                <Setter Property="Brush" Value="Red" />
                             </ControlTheme>
                         </controls:Node.ConnectorTheme>
                         <controls:Node.Footer>
