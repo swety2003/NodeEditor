@@ -37,6 +37,17 @@ public partial class NodeEditorTestViewModel: ObservableObject
                 Options &= ~EditorOptions.Connection;
         }
     }
+    public bool CanAutoPanningOnEdge
+    {
+        get => Options.HasFlag(EditorOptions.AutoPannngOnEdge);
+        set
+        {
+            if (value)
+                Options |= EditorOptions.AutoPannngOnEdge;
+            else
+                Options &= ~EditorOptions.AutoPannngOnEdge;
+        }
+    }
     
     public AvaloniaList<NodeViewModel> Nodes { get; set; } = [];
     public AvaloniaList<NodeViewModel> SelectedNodes { get; set; } = [];

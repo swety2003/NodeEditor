@@ -2,6 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.VisualTree;
+using NodeEditor.Utils;
 
 namespace NodeEditor.Controls;
 
@@ -23,6 +24,7 @@ public partial class SampleNodeEditor
 
     private State currentState = State.Idle;
     private Point mouseDownPos = new();
+    private Vector viewDragSum = new();
     private SampleNodeEditor owningWorkspace;
 
     #endregion
@@ -94,6 +96,7 @@ public partial class SampleNodeEditor
     {
         var p = e.GetPosition(owningWorkspace);
         mouseDownPos = p;
+        viewDragSum = new Point();
         var visualSource = e.Source as Visual;
         var item = visualSource.FindAncestorOfType<CanvasItem>();
         var connector = visualSource.FindAncestorOfType<Connector>();
@@ -182,15 +185,16 @@ public partial class SampleNodeEditor
     }
 
     private int threshold = 3;
+    private Point lastMovePos = new();
     public void OnPointerMoved(object? sender, PointerEventArgs e)
     {
-        // todo ignore events
+        var p = e.GetPosition(owningWorkspace);
+        
         if (CanIgnore(e.Source as Visual))
         {
             return;
         }
         
-        var p = e.GetPosition(owningWorkspace);
         Vector delta = p - mouseDownPos;
         var scale = owningWorkspace.ViewTransform.Matrix.M11;
         if (Math.Abs(delta.X) > threshold || Math.Abs(delta.Y) > threshold)
@@ -215,7 +219,24 @@ public partial class SampleNodeEditor
             {
                 GotoState(State.Panning);
             }
+            
+            
+            if (currentState is State.Connecting or State.Dragging && owningWorkspace.EditorOptions.HasFlag(EditorOptions.AutoPannngOnEdge))
+            {
+                var delta1 = MoveView(p,p - lastMovePos);
+                viewDragSum += delta1;
+                if (delta1.X != 0 || delta1.Y != 0)
+                {
+                    owningWorkspace.ViewTransform = (owningWorkspace.ViewTransform.Matrix * MatrixHelper.Translate(-delta1.X, -delta1.Y)).ToMatrixTransform();
+                }
+                if (viewDragSum.X != 0 || viewDragSum.Y != 0)
+                {
+                    delta += viewDragSum/scale;
+                }
+            }
         }
+        
+        
 
         if (currentState == State.Dragging)
         {
@@ -244,8 +265,41 @@ public partial class SampleNodeEditor
             // Console.WriteLine("M "+e.Source);
 
         }
+        
+        
+        lastMovePos = p;
+
     }
     
     
+    #region ViewMove
+    private Vector MoveView(Point p, Vector delta)
+    {
+        var rect = owningWorkspace.Bounds;
+        // 计算移动向量
+        var moveX = CalculateMoveAmount(p.X, rect.Width, delta.X);
+        var moveY = CalculateMoveAmount(p.Y, rect.Height, delta.Y);
+        return new Vector(moveX, moveY) * 0.1;
+    }
+
+    private float moveThreshold = 0.1f;
+    private double CalculateMoveAmount(double position, double dimension, double delta)
+    {
+        float threshold = (float)dimension * moveThreshold;
+        float minEdge = threshold;
+        float maxEdge = (float)dimension - threshold;
+        if (position - minEdge < 0 && delta < 0)
+        {
+            return (position - minEdge);
+        }
+
+        if (position - maxEdge >0 && delta > 0)
+        {
+            return (position - maxEdge);
+        }
+        return 0;
+    }
+
+    #endregion
 }
 }
