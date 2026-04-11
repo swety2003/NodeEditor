@@ -14,11 +14,7 @@ namespace NodeEditor.Controls;
 
 public partial class SampleNodeEditor : TemplatedControl
 {
-    private StateMachine _stateMachine;
-    public SampleNodeEditor()
-    {
-        _stateMachine = new StateMachine(this);
-    }
+    private StateMachine _stateMachine= new();
     
     #region Control Properties
 
